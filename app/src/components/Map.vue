@@ -10,8 +10,8 @@ export default {
 
 <script setup>
 
-        // const list = getData();
-        // const ws = useWebSocket(handleMessage);
+        const list = getItem();
+        const ws = useWebSocket(handleMessage);
 
         onMounted(() => {
             var map
@@ -26,15 +26,13 @@ export default {
                 html: '<div style="width: 30px; height: 30px; background-color: white;"></div>'
             });
             leaflet.marker([50, 30], {icon: myIcon}).addTo(map);
-
-            // getServerChange()
         });
 
-        function getData(){
+        function getItem(){
             var list
             axios({
                 method: "get",
-                url: "http://test-cn.your-api-server.com/booths"
+                url: "https://api.booth-map-202405.0nline.tech/get_booths/"
             }).then(
                 res =>{
                     console.log(res)
@@ -45,14 +43,10 @@ export default {
             return list
         }
 
-        function getServerChange(){
-            // 这里应该还有一个循环保证一直查询信息是否改变
-            ws.send()
-        }
 
         function useWebSocket(handleMessage){
             // 这个url还没定，webSocket还没有经过测试
-            const ws = new WebSocket("url");
+            const ws = new WebSocket("wss://api.booth-map-202405.0nline.tech/ws");
 
             const init = () => {
                 change();
