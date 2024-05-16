@@ -10,7 +10,7 @@ export default {
 
 <script setup>
 
-        const list = getItem();
+        var list;
         const ws = useWebSocket(handleMessage);
 
         onMounted(() => {
@@ -26,6 +26,8 @@ export default {
                 html: '<div style="width: 30px; height: 30px; background-color: white;"></div>'
             });
             leaflet.marker([50, 30], {icon: myIcon}).addTo(map);
+
+            list = getItem()
         });
 
         function getItem(){
@@ -35,8 +37,8 @@ export default {
                 url: "https://api.booth-map-202405.0nline.tech/get_booths/"
             }).then(
                 res =>{
-                    console.log(res)
                     list = res.data
+                    console.log(list)
                 }
             )
 
@@ -78,6 +80,7 @@ export default {
 
         function handleMessage(msg){
             console.log(msg)
+            list = msg
         }
 
 </script>
